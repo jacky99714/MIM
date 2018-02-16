@@ -19,22 +19,38 @@ class RevenueInfo:
         return self.year + "/" + self.month + " : " + self.revenue
 
 
-def getMothRevenue(stockSymbol):
-    """取得該股近十年每月營收"""
-
+def getMothRevenueWithTenYear(stockSymbol):
+    """
+    取得該股近十年每月營收
+    stockSymbol : 股票代碼
+    """
     for year in range(2017, 2018, 1):
-        for month in range(1, 12, 1):
-            url = getMothRevenueUrl(year, month, "sii")
-            response = requests.get(url)
-            response.encoding = "big5"
-            root = etree.fromstring(response.text, etree.HTMLParser())
+        for month in range(1, 13, 1):
+            getMothRevenue(stockSymbol, year, month, "sii")
 
-            #   公司代號    公司名稱   當月營收     上月營收	去年當月營收	上月比較 增減(% )	去年同月 增減( % )	當月累計營收	去年累計營收	前期比較 增減( % )
-            td = root.xpath(
-                "//tr[contains(td,'"+stockSymbol+"')]/td[3]/text()")
-            revenue = td[0]
-            r = RevenueInfo(year, month, stockSymbol, revenue)
-            print(r)
+
+def getMothRevenue(stockSymbol, year, month, stockSymbolType):
+    """
+    取得該股近十年每月營收
+    stockSymbol : 股票代碼
+    year : 年
+    month : 月
+    stockSymbolType : otc上櫃 ;sii 上市
+    """
+    url = getMothRevenueUrl(year, month, "sii")
+    response = requests.get(url)
+    if response.status_code != 200:
+        return None
+    response.encoding = "big5"
+    root = etree.fromstring(response.text, etree.HTMLParser())
+
+    # tr -> td包含股票代碼(stockSymbol) -> 第三個td -> 內容
+    td = root.xpath(
+        "//tr[contains(td,'" + stockSymbol + "')]/td[3]/text()")
+    if len(td) > 0:
+        revenue = td[0]
+        r = RevenueInfo(year, month, stockSymbol, revenue)
+        print(r)
 
 
 def getMothRevenueUrl(year, month, stockType):
@@ -42,7 +58,7 @@ def getMothRevenueUrl(year, month, stockType):
     取得營收URL
     year : 民國年
     month : 月
-    type : otc 上櫃 ; sii 上市
+    stockType : otc 上櫃 ; sii 上市
     """
     # 假如是西元，轉成民國
     if year > 1990:
@@ -60,7 +76,8 @@ def getMothRevenueUrl(year, month, stockType):
 
 
 def main():
-    getMothRevenue("1101")
+    # getMothRevenueWithTenYear("1101")
+    getMothRevenue("1101", 107, 2, "sii")
     pass
 
 
