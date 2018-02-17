@@ -10,8 +10,6 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
 )
 
-from mvcTest import test
-
 app = Flask(__name__)
 
 # Channel Access Token
