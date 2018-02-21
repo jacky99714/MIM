@@ -41,13 +41,29 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+
+    sentGoogleSheet(event.message.text)
+
     message = TextSendMessage(text=event.message.text)
     line_bot_api.reply_message(
         event.reply_token,
         message)
 
 
+def sentGoogleSheet(messageText):
+
+    payload = {
+        "method": "write",
+        "name": "Wayne",
+        "sex": "male",
+        "remark": "messageText"
+    }
+    r = requests.post(
+        "https://script.google.com/macros/u/1/s/AKfycbxpt9x0JRpgRis0DbD0G0c1Slkuz_WS2oJWqYat6WAfK8BoNHAv/exec", params=payload)
+
+
 import os
 if __name__ == "__main__":
+    sentGoogleSheet()
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
