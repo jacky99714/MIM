@@ -41,9 +41,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-
-    sentGoogleSheet(event.message.text)
-
+    sentGoogleSheet("測試")
     message = TextSendMessage(text=event.message.text)
     line_bot_api.reply_message(
         event.reply_token,
@@ -51,7 +49,6 @@ def handle_message(event):
 
 
 def sentGoogleSheet(messageText):
-
     r = requests.get(
         "https://script.google.com/macros/s/AKfycbyjODcLO3-5jIqgkCy83fi9NZLz8kL_wRAT2CixKFA4/exec?data="+messageText+",rr,rrr&sheetUrl=https://docs.google.com/spreadsheets/d/1wOt1WAQ6puQAK63fHMpCS1D34wWvWqCqM_odNmqFW_U/edit&sheetTag=sheet1")
 
