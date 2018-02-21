@@ -52,14 +52,8 @@ def handle_message(event):
 
 def sentGoogleSheet(messageText):
 
-    payload = {
-        "method": "write",
-        "name": "Wayne",
-        "sex": "male",
-        "remark": "messageText"
-    }
-    r = requests.post(
-        "https://script.google.com/macros/u/1/s/AKfycbxpt9x0JRpgRis0DbD0G0c1Slkuz_WS2oJWqYat6WAfK8BoNHAv/exec", params=payload)
+    r = requests.get(
+        "https://script.google.com/macros/s/AKfycbyjODcLO3-5jIqgkCy83fi9NZLz8kL_wRAT2CixKFA4/exec?data=rr,rr,rrr&sheetUrl=https://docs.google.com/spreadsheets/d/1wOt1WAQ6puQAK63fHMpCS1D34wWvWqCqM_odNmqFW_U/edit&sheetTag=sheet1")
 
 
 import os
