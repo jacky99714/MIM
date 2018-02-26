@@ -8,8 +8,8 @@ class RevenueInfo:
 
     def __init__(self, year, month, stockSymbol, revenue):
         year = int(year)
-        if year > 1990:
-            year -= 1911
+        if year < 1990:
+            year += 1911
         self.year = str(year).strip()
         self.month = str(month).strip()
         self.stockSymbol = str(stockSymbol).strip()

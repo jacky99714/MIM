@@ -1,4 +1,5 @@
 import requests
+import SheetRequest
 from flask import Flask, request, abort
 
 from linebot import (
@@ -22,9 +23,15 @@ handler = WebhookHandler('7e3c439fc6fbd60e8e88b7b9a69a6259')
 # 監聽所有來自 /callback 的 Post Request
 
 
-@app.route('/hello/<name>')
-def user(name):
-    return "Hello %s" % name
+@app.route('/')
+def home():
+    return "Hello jacky"
+
+
+@app.route('/spiderRevenue/<stockSymbol>')
+def spiderRevenue(stockSymbol):
+    SheetRequest.sentGoogleSheet(stockSymbol)
+    pass
 
 
 @app.route("/callback", methods=['POST'])
