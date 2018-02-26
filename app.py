@@ -1,4 +1,6 @@
 import requests
+import SheetRequest
+
 from flask import Flask, request, abort
 
 from linebot import (
@@ -25,6 +27,12 @@ handler = WebhookHandler('7e3c439fc6fbd60e8e88b7b9a69a6259')
 @app.route('/home')
 def home():
     return "Hello jacky"
+
+
+@app.route('/spiderRevenue/<stockSymbol>')
+def spiderRevenue(stockSymbol):
+    SheetRequest.sentGoogleSheet(stockSymbol)
+    return "Hello"
 
 
 @app.route("/callback", methods=['POST'])
