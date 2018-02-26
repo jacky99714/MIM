@@ -22,6 +22,11 @@ handler = WebhookHandler('7e3c439fc6fbd60e8e88b7b9a69a6259')
 # 監聽所有來自 /callback 的 Post Request
 
 
+@app.route('/hello/<name>')
+def user(name):
+    return "Hello %s" % name
+
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
