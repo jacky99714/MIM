@@ -13,7 +13,7 @@ class RevenueInfo:
         self.year = str(year).strip()
         self.month = str(month).strip()
         self.stockSymbol = str(stockSymbol).strip()
-        self.revenue = str(revenue).strip()
+        self.revenue = str(revenue).replace(",", "").strip()
 
     def __str__(self):
         return self.year + "/" + self.month + " : " + self.revenue
@@ -24,14 +24,25 @@ def getMothRevenueWithTenYear(stockSymbol):
     取得該股近十年每月營收
     stockSymbol : 股票代碼
     """
-    for year in range(2017, 2018, 1):
+    # print("getMothRevenueWithTenYear")
+    revenueInfoList = []
+    for year in range(2010, 2019, 1):
         for month in range(1, 13, 1):
-            getMothRevenue(stockSymbol, year, month, "sii")
+            # print(str(year)+"/"+str(month))
+            if(year >= 2018 and month >= 2):  # 略過當下之後的月營收
+                continue
+            else:
+                r = getMothRevenue(stockSymbol, year, month, "otc")
+                print(r)
+                if(r != None):
+                    revenueInfoList.append(r)
+
+    return revenueInfoList
 
 
 def getMothRevenue(stockSymbol, year, month, stockSymbolType):
     """
-    取得該股近十年每月營收
+    取得該股月營收
     stockSymbol : 股票代碼
     year : 年
     month : 月
@@ -49,8 +60,8 @@ def getMothRevenue(stockSymbol, year, month, stockSymbolType):
         "//tr[contains(td,'" + stockSymbol + "')]/td[3]/text()")
     if len(td) > 0:
         revenue = td[0]
-        r = RevenueInfo(year, month, stockSymbol, revenue)
-        print(r)
+        return RevenueInfo(year, month, stockSymbol, revenue)
+    return None
 
 
 def getMothRevenueUrl(year, month, stockType):
@@ -82,4 +93,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    pass
