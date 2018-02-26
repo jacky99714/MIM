@@ -1,7 +1,5 @@
 import requests
-import itertools
 import RevenueSpider
-from flask import Flask, request, abort
 
 
 def sentGoogleSheet(stockSymbol):
