@@ -23,7 +23,7 @@ handler = WebhookHandler('7e3c439fc6fbd60e8e88b7b9a69a6259')
 # 監聽所有來自 /callback 的 Post Request
 
 
-@app.route('/')
+@app.route('/home')
 def home():
     return "Hello jacky"
 
@@ -31,7 +31,7 @@ def home():
 @app.route('/spiderRevenue/<stockSymbol>')
 def spiderRevenue(stockSymbol):
     SheetRequest.sentGoogleSheet(stockSymbol)
-    pass
+    return "Hello"
 
 
 @app.route("/callback", methods=['POST'])

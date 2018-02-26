@@ -4,13 +4,6 @@ import RevenueSpider
 from flask import Flask, request, abort
 
 
-@app.route("/sentGoogleSheet", methods=['GET'])
-def sentGoogleSheet():
-    # get request body as text
-    body = request.get_data(as_text=True)
-    return 'OK'
-
-
 def sentGoogleSheet(stockSymbol):
 
     revenueInfos = RevenueSpider.getMothRevenueWithTenYear(stockSymbol)
