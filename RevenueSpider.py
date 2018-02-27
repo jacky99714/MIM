@@ -19,10 +19,11 @@ class RevenueInfo:
         return self.year + "/" + self.month + " : " + self.revenue
 
 
-def getMothRevenueWithTenYear(stockSymbol):
+def getMothRevenueWithTenYear(stockSymbol, stockSymbolType):
     """
     取得該股近十年每月營收
     stockSymbol : 股票代碼
+    stockSymbolType: otc上櫃 sii 上市
     """
     # print("getMothRevenueWithTenYear")
     revenueInfoList = []
@@ -32,7 +33,7 @@ def getMothRevenueWithTenYear(stockSymbol):
             if(year >= 2018 and month >= 2):  # 略過當下之後的月營收
                 continue
             else:
-                r = getMothRevenue(stockSymbol, year, month, "otc")
+                r = getMothRevenue(stockSymbol, year, month, stockSymbolType)
                 print(r)
                 if(r != None):
                     revenueInfoList.append(r)
@@ -48,7 +49,7 @@ def getMothRevenue(stockSymbol, year, month, stockSymbolType):
     month : 月
     stockSymbolType : otc上櫃 ;sii 上市
     """
-    url = getMothRevenueUrl(year, month, "sii")
+    url = getMothRevenueUrl(year, month, stockSymbolType)
     response = requests.get(url)
     if response.status_code != 200:
         return None
