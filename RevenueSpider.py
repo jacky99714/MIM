@@ -6,13 +6,14 @@ from lxml import etree
 class RevenueInfo:
     """營收pojo"""
 
-    def __init__(self, year, month, stockSymbol, revenue):
+    def __init__(self, year, month, stockSymbol, revenue, stockName):
         year = int(year)
         if year < 1990:
             year += 1911
         self.year = str(year).strip()
         self.month = str(month).strip()
         self.stockSymbol = str(stockSymbol).strip()
+        self.stockName = str(stockName).strip()
         self.revenue = str(revenue).replace(",", "").strip()
 
     def __str__(self):
@@ -34,7 +35,7 @@ def getMothRevenueWithTenYear(stockSymbol, stockSymbolType):
                 continue
             else:
                 r = getMothRevenue(stockSymbol, year, month, stockSymbolType)
-                print(r)
+                # print(r)
                 if(r != None):
                     revenueInfoList.append(r)
 
@@ -59,9 +60,12 @@ def getMothRevenue(stockSymbol, year, month, stockSymbolType):
     # tr -> td包含股票代碼(stockSymbol) -> 第三個td -> 內容
     td = root.xpath(
         "//tr[contains(td,'" + stockSymbol + "')]/td[3]/text()")
+    name = root.xpath(
+        "//tr[contains(td,'" + stockSymbol + "')]/td[2]/text()")
     if len(td) > 0:
         revenue = td[0]
-        return RevenueInfo(year, month, stockSymbol, revenue)
+        name = name[0]
+        return RevenueInfo(year, month, stockSymbol, revenue, name)
     return None
 
 

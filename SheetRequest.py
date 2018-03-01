@@ -17,7 +17,7 @@ def sentGoogleSheet(stockSymbol, stockSymbolType):
         "sheetUrl": "https://docs.google.com/spreadsheets/d/1wOt1WAQ6puQAK63fHMpCS1D34wWvWqCqM_odNmqFW_U/edit#gid=0",
         "sheetTag": stockSymbol,
         "action": "write",
-        "data": ";".join(revenueFormat)
+        "data": str(revenueFormat).replace("\'", "\"")
     }
     r = requests.get(url, params=data)
 
@@ -37,12 +37,20 @@ def revenueInfoDataFormat(revenueInfos):
             else:
                 resultdict[year].append(data.revenue)
 
-    result = []
+    revenueInfoForYear1 = []
     for year in resultdict.keys():
-        result.append(year+","+",".join(resultdict[year]))
+        revenueInfoForYear1.append(year+"#"+"#".join(resultdict[year]))
 
+    result = {
+        "revenueInfoForYear": "%".join(revenueInfoForYear1),
+        "name": revenueInfos[0].stockName
+    }
+    print(str(result).replace("\'", "\""))
     return result
 
 
 if __name__ == "__main__":
-    sentGoogleSheet("1526", "sii")
+    # sentGoogleSheet("1526", "sii")
+    # sentGoogleSheet("6150", "otc")
+    # sentGoogleSheet("8924", "otc")
+    sentGoogleSheet("4426", "sii")
