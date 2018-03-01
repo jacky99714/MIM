@@ -50,7 +50,16 @@ def revenueInfoDataFormat(revenueInfos):
 
 
 if __name__ == "__main__":
-    # sentGoogleSheet("1526", "sii")
-    # sentGoogleSheet("6150", "otc")
-    # sentGoogleSheet("8924", "otc")
+
+    go = [
+        "1526:sii",  # 日馳
+        "6150:otc",  # 撼訊
+        "8924:otc",  # 大田精密
+        "4426:sii",  # 利勤
+        "4426:sii"  # 利勤
+    ]
+
+    sentGoogleSheet("1526", "sii")
+    sentGoogleSheet("6150", "otc")
+    sentGoogleSheet("8924", "otc")
     sentGoogleSheet("4426", "sii")
