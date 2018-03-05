@@ -20,7 +20,7 @@ class RevenueInfo:
         return self.year + "/" + self.month + " : " + self.revenue
 
 
-def getMothRevenueWithTenYear(stockSymbol, stockSymbolType):
+def getMothRevenueWithTenYear(stockSymbol, stockSymbolType, isOutCounty=0):
     """
     取得該股近十年每月營收
     stockSymbol : 股票代碼
@@ -34,7 +34,8 @@ def getMothRevenueWithTenYear(stockSymbol, stockSymbolType):
             if(year >= 2018 and month >= 2):  # 略過當下之後的月營收
                 continue
             else:
-                r = getMothRevenue(stockSymbol, year, month, stockSymbolType)
+                r = getMothRevenue(stockSymbol, year, month,
+                                   stockSymbolType, isOutCounty)
                 # print(r)
                 if(r != None):
                     revenueInfoList.append(r)
@@ -42,7 +43,7 @@ def getMothRevenueWithTenYear(stockSymbol, stockSymbolType):
     return revenueInfoList
 
 
-def getMothRevenue(stockSymbol, year, month, stockSymbolType):
+def getMothRevenue(stockSymbol, year, month, stockSymbolType, isOutCounty=0):
     """
     取得該股月營收
     stockSymbol : 股票代碼
@@ -50,7 +51,7 @@ def getMothRevenue(stockSymbol, year, month, stockSymbolType):
     month : 月
     stockSymbolType : otc上櫃 ;sii 上市
     """
-    url = getMothRevenueUrl(year, month, stockSymbolType)
+    url = getMothRevenueUrl(year, month, stockSymbolType, isOutCounty)
     response = requests.get(url)
     if response.status_code != 200:
         return None
@@ -69,12 +70,13 @@ def getMothRevenue(stockSymbol, year, month, stockSymbolType):
     return None
 
 
-def getMothRevenueUrl(year, month, stockType):
+def getMothRevenueUrl(year, month, stockType, isOutCounty=0):
     """
     取得營收URL
     year : 民國年
     month : 月
     stockType : otc 上櫃 ; sii 上市
+    isOutCounty : 國內為0 ; 國外為1
     """
     # 假如是西元，轉成民國
     if year > 1990:
@@ -83,7 +85,7 @@ def getMothRevenueUrl(year, month, stockType):
     prefix_url = 'http://mops.twse.com.tw/nas/t21/'
     type_url = stockType + "/t21sc03_"
     time_url = str(year) + "_" + str(month)
-    sufffix_url = "_0.html"
+    sufffix_url = "_"+str(isOutCounty)+".html"
 
     if year <= 98:
         sufffix_url = ".html"
