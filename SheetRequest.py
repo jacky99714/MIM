@@ -78,4 +78,4 @@ if __name__ == "__main__":
     # sentGoogleSheet("1476", "sii")  # 儒鴻
     # sentGoogleSheet("4807", "sii", 1)  # 日成-KY
     # sentGoogleSheet("6438", "otc")  # 迅得
-    sentGoogleSheet("1597", "otc")  # 直得
+    # sentGoogleSheet("1597", "otc")  # 直得
