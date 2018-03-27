@@ -20,6 +20,40 @@ class RevenueInfo:
         return self.year + "/" + self.month + " : " + self.revenue
 
 
+def revenueInfoDataFormat(revenueInfos):
+    """格式化為必要格式
+
+    Arguments:
+        revenueInfos {List<Revenue>} -- [description]
+
+    Returns:
+        string -- json
+    """
+
+    resultdict = {}
+
+    years = set(map(lambda x: x.year, revenueInfos))
+
+    for year in years:
+        print(year)
+        datas = filter(lambda x: x.year == year, revenueInfos)
+        for data in datas:
+            if(resultdict.get(year, None) == None):
+                resultdict[year] = [data.revenue]
+            else:
+                resultdict[year].append(data.revenue)
+
+    revenueInfoForYear1 = []
+    for year in resultdict.keys():
+        revenueInfoForYear1.append(year+"#"+"#".join(resultdict[year]))
+
+    result = {
+        "revenueInfoForYear": "%".join(revenueInfoForYear1),
+        "name": revenueInfos[0].stockName
+    }
+    return result
+
+
 def getMothRevenueWithTenYear(stockSymbol, stockSymbolType, isOutCounty=0):
     """
     取得該股近十年每月營收
@@ -31,7 +65,7 @@ def getMothRevenueWithTenYear(stockSymbol, stockSymbolType, isOutCounty=0):
     for year in range(2010, 2019, 1):
         for month in range(1, 13, 1):
             # print(str(year)+"/"+str(month))
-            if(year >= 2018 and month >= 2):  # 略過當下之後的月營收
+            if(year >= 2018 and month >= 3):  # 略過當下之後的月營收
                 continue
             else:
                 r = getMothRevenue(stockSymbol, year, month,
